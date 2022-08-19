@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    username: root
+    password: rootuser
+    url: jdbc:mysql://localhost:3306/chat_application
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  webflux:
+    base-path: /api/v1
+server:
+  port: 9090
+logging:
+  level:
+    root: info
+
+
+
