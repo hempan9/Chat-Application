@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -15,10 +16,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MessageDto {
-    private String messageId;
+    private Long messageId;
     private String message;
     private String size;
     private String type;
-    private String createdByUserId;
-    private Date createdDateTime;
+    private Long createdByUserId;
+    private LocalDateTime createdDateTime;
 }

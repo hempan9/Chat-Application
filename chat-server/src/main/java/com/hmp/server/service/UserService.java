@@ -7,5 +7,5 @@ import reactor.core.publisher.Mono;
 public interface UserService {
     boolean createUser(UserDto user);
 
-    Mono<UserDto> getUserById(String userId);
+    Mono<UserDto> getUserById(Long userId);
 }

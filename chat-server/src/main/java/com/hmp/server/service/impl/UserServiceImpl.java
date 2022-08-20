@@ -19,6 +19,11 @@ public class UserServiceImpl implements UserService {
         this.userDAO = userDAO;
     }
 
+    /**
+     *
+     * @param userDto
+     * @return
+     */
     @Override
     public boolean createUser(UserDto userDto) {
         if (!existsByUserName(userDto)) {
@@ -29,7 +34,6 @@ public class UserServiceImpl implements UserService {
             return true;
         } else {
             log.info("Cannot save already exists");
-
             return false;
         }
 

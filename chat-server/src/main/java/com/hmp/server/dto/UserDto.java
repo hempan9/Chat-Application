@@ -17,9 +17,11 @@ import java.util.UUID;
 public class UserDto {
 
     private long userId;
-    @NotEmpty@NotNull
+    @NotEmpty
+    @NotNull
     private String userName;
-    @NotEmpty@NotNull
+    @NotEmpty
+    @NotNull
     private String email;
     private String firstName;
     private String lastName;

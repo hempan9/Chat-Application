@@ -1,8 +1,8 @@
 package com.hmp.server.controller;
 
-import com.hmp.server.ApiResponse;
-import com.hmp.server.dto.ResponseStatus;
+import com.hmp.server.response.UserApiResponse;
 import com.hmp.server.dto.UserDto;
+import com.hmp.server.enums.ResponseStatus;
 import com.hmp.server.service.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,15 +22,15 @@ public class UserResourceController {
     }
 
     @RequestMapping(value = "/saveUser", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ApiResponse> registerUser(@RequestBody @Valid UserDto userDto) {
+    public ResponseEntity<UserApiResponse> registerUser(@RequestBody @Valid UserDto userDto) {
         boolean saved = userService.createUser(userDto);
         if (saved) {
-            return ResponseEntity.ok(ApiResponse.ApiResponseBuilder()
+            return ResponseEntity.ok(UserApiResponse.ApiResponseBuilder()
                     .msg("Successfully saved")
-                            .data(userDto)
+                    .data(userDto)
                     .responseStatus(ResponseStatus.SUCCESS).build());
         } else {
-            return ResponseEntity.ok(ApiResponse.ApiResponseBuilder()
+            return ResponseEntity.ok(UserApiResponse.ApiResponseBuilder()
                     .data(userDto)
                     .msg("Failed to save. Check if the user already exists.")
                     .responseStatus(ResponseStatus.FAILURE).build());
