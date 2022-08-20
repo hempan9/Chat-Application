@@ -6,11 +6,10 @@ import com.hmp.server.entity.MessageEntity;
 import com.hmp.server.entity.UserEntity;
 import com.hmp.server.exception.UserNotFoundException;
 import com.hmp.server.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * @author: hobject
@@ -32,7 +31,12 @@ public class MessageDtoUtil {
         MessageDto messageDto = null;
         if (messageEntity != null) {
             messageDto = new MessageDto();
-            BeanUtils.copyProperties(messageEntity, messageDto);
+            messageDto.setMessageId(messageEntity.getMessageId());
+            messageDto.setCreatedByUserId(messageEntity.getCreatedBy().getUserId());
+            messageDto.setMessage(messageEntity.getMessage());
+            messageDto.setType(messageEntity.getType());
+            messageDto.setCreatedDateTime(messageEntity.getCreatedDateTime());
+            messageDto.setSize(messageEntity.getSize());
         }
         return messageDto;
     }
@@ -44,7 +48,7 @@ public class MessageDtoUtil {
                     .message(messageDto.getMessage())
                     .type(messageDto.getType())
                     .createdBy(setCreatedByUser(messageDto.getCreatedByUserId()))
-                    .size(messageDto.getSize())
+                    .size(String.valueOf(messageDto.getMessage().getBytes().length))
                     .createdDateTime(LocalDateTime.now())
                     .build();
 
@@ -54,13 +58,11 @@ public class MessageDtoUtil {
 
 
     private UserEntity setCreatedByUser(Long userId) throws UserNotFoundException {
-        Mono<UserDto> user = userService.getUserById(userId.longValue()).switchIfEmpty(Mono.empty());
-        UserEntity userEntity = UserDtoUtil.convertUserDtoToEntity(user.block());
-        if (userEntity ==null){
+        Optional<UserDto> user = userService.getUserById(userId.longValue());
+        if (user.isPresent()) {
+            return UserDtoUtil.convertUserDtoToEntity(user.get());
+        } else {
             throw new UserNotFoundException("User Not found");
-        }
-        else {
-            return userEntity;
         }
 
     }

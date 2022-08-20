@@ -1,13 +1,17 @@
 package com.hmp.server.controller;
 
 import com.hmp.server.dto.MessageDto;
+import com.hmp.server.enums.MessageStatusEnum;
+import com.hmp.server.exception.UserNotFoundException;
 import com.hmp.server.response.MessageApiResponse;
 import com.hmp.server.service.impl.MessageService;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author: hobject
@@ -23,7 +27,26 @@ public class MessageController {
     }
 
     @RequestMapping(value = "/saveMessage", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-public MessageApiResponse sendMessage(@RequestBody MessageDto messageDto){
-return null;
+    public ResponseEntity<MessageApiResponse> sendMessage(@RequestBody MessageDto messageDto) throws UserNotFoundException, ExecutionException, InterruptedException {
+        return messageService.createNewMessage(messageDto) != null ?
+                ResponseEntity.ok(messageService.createNewMessage(messageDto))
+                : ResponseEntity.notFound().build();
+    }
+
+    @RequestMapping(value = "/findMessage/{messageId}", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public MessageApiResponse findMessageByMessageId(@PathVariable Long messageId) {
+        Optional<MessageDto> response = messageService.findMessageById(messageId);
+        return response.isPresent() ?
+                MessageApiResponse.MessageResponseBuilder()
+                        .msg("Successfully fetched message using messageId: " + messageId)
+                        .messageStatus(MessageStatusEnum.SEEN)
+                        .messages(response.get())
+                        .build()
+                : MessageApiResponse.MessageResponseBuilder()
+                .error("Error occurred while fetching ")
+                .messageStatus(MessageStatusEnum.FAILED)
+                .msg("Check if the messageId is correct: " + messageId)
+                .build();
+
     }
 }

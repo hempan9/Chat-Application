@@ -19,7 +19,7 @@ import java.util.List;
 public class MessageApiResponse {
     private MessageStatusEnum messageStatus;
     private String error;
-    private Flux<MessageDto> messages;
+    private MessageDto messages;
     private String msg;
 
 }

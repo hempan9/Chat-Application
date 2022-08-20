@@ -8,7 +8,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import reactor.core.publisher.Mono;
+
+import java.util.Optional;
 
 @Service
 @Log4j2
@@ -48,19 +49,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Mono<UserDto> getUserById(String userId) {
-        return Mono.just(userDAO.findById(Long.valueOf(userId)).get()
-        ).map(
+    public Optional<UserDto> getUserById(Long userId) {
+        return Optional.of(userDAO.findById(userId).map(
                 entity ->
                 {
                     UserDto userDto = new UserDto();
                     BeanUtils.copyProperties(entity, userDto);
                     return userDto;
-                }
-
-        ).doOnError(
-                error -> error.getMessage());
-
+                })).get();
     }
 
 }
