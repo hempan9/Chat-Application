@@ -1,5 +1,6 @@
 package com.hmp.server.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,14 +14,12 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
-@Builder(builderMethodName = "MessageEntityBuilder")
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageDto {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class MessageDto extends AbstractDto {
     private Long messageId;
     private String message;
     private String size;
     private String type;
-    private Long createdByUserId;
-    private LocalDateTime createdDateTime;
 }

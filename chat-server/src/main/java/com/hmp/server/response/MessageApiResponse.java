@@ -1,6 +1,7 @@
 package com.hmp.server.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hmp.server.dto.MessageDto;
 import com.hmp.server.enums.MessageStatusEnum;
 import lombok.Builder;
@@ -16,6 +17,7 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Builder(builderMethodName = "MessageResponseBuilder")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MessageApiResponse {
     private MessageStatusEnum messageStatus;
     private String error;

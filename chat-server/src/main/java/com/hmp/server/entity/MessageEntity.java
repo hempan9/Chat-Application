@@ -14,10 +14,9 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Table(name = "pro_message")
-@Builder(builderMethodName = "MessageEntityBuilder")
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageEntity {
+public class MessageEntity extends AbstractEntity {
     @Id
     @GeneratedValue(generator = "message-sequence-generator")
     @GenericGenerator(
@@ -32,9 +31,9 @@ public class MessageEntity {
     private String message;
     private String size;
     private String type;
-    @ManyToOne
-    @JoinColumn(name = "created_by_user_id", referencedColumnName = "userId")
-    private UserEntity createdBy;
-    @DateTimeFormat
-    private LocalDateTime createdDateTime;
+//    @ManyToOne
+//    @JoinColumn(name = "created_by_user_id", referencedColumnName = "userId")
+//    private UserEntity createdBy;
+//    @DateTimeFormat
+//    private LocalDateTime createdDateTime;
 }

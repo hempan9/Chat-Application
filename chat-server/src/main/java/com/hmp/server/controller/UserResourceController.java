@@ -31,7 +31,6 @@ public class UserResourceController {
                     .responseStatus(ResponseStatus.SUCCESS).build());
         } else {
             return ResponseEntity.ok(UserApiResponse.ApiResponseBuilder()
-                    .data(userDto)
                     .msg("Failed to save. Check if the user already exists.")
                     .responseStatus(ResponseStatus.FAILURE).build());
         }

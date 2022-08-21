@@ -40,6 +40,19 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public Optional<UserDto> getUserByUserName(String userName) {
+        return  Optional.of(userDAO.findByUserName(userName)).map(
+                entity ->
+                {
+                    UserDto userDto = new UserDto();
+                    BeanUtils.copyProperties(entity, userDto);
+                    return userDto;
+                });
+    }
+
+
+
     private boolean existsByUserName(final UserDto userDto) {
         if (userDto != null) {
             return (!CollectionUtils.isEmpty(userDAO.findByUserNameAndAndEmail(userDto.getUserName(), userDto.getEmail())))
@@ -48,15 +61,5 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-    @Override
-    public Optional<UserDto> getUserById(Long userId) {
-        return Optional.of(userDAO.findById(userId).map(
-                entity ->
-                {
-                    UserDto userDto = new UserDto();
-                    BeanUtils.copyProperties(entity, userDto);
-                    return userDto;
-                })).get();
-    }
 
 }
