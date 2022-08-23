@@ -32,11 +32,13 @@ public class MessageDtoUtil {
         if (messageEntity != null) {
             messageDto = new MessageDto();
             messageDto.setMessageId(messageEntity.getMessageId());
-            messageDto.setCreatedByUserId(messageEntity.getCreatedBy().getUserId());
             messageDto.setMessage(messageEntity.getMessage());
             messageDto.setType(messageEntity.getType());
             messageDto.setCreatedDateTime(messageEntity.getCreatedDateTime());
             messageDto.setSize(messageEntity.getSize());
+            messageDto.setUpdatedBy(messageEntity.getUpdatedBy().getUserName());
+            messageDto.setCreatedDateTime(messageEntity.getCreatedDateTime());
+            messageDto.setUpdatedDateTime(messageEntity.getUpdatedDateTime());
         }
         return messageDto;
     }
@@ -44,21 +46,22 @@ public class MessageDtoUtil {
     public MessageEntity convertMessageDtoToEntity(final MessageDto messageDto) throws UserNotFoundException {
         MessageEntity messageEntity = null;
         if (messageDto != null) {
-            messageEntity = MessageEntity.MessageEntityBuilder()
-                    .message(messageDto.getMessage())
-                    .type(messageDto.getType())
-                    .createdBy(setCreatedByUser(messageDto.getCreatedByUserId()))
-                    .size(String.valueOf(messageDto.getMessage().getBytes().length))
-                    .createdDateTime(LocalDateTime.now())
-                    .build();
+            messageEntity = new MessageEntity();
+            messageEntity.setMessageId(messageDto.getMessageId());
+            messageEntity.setMessage(messageDto.getMessage());
+            messageEntity.setType(messageDto.getType());
+            messageEntity.setSize(messageDto.getMessage().getBytes().toString());
+            messageEntity.setUpdatedBy(setUpdatedByUserName(messageDto.getUpdatedBy()));
+            messageEntity.setCreatedDateTime(LocalDateTime.now().toString());
+            messageEntity.setUpdatedDateTime(LocalDateTime.now().toString());
 
         }
         return messageEntity;
     }
 
 
-    private UserEntity setCreatedByUser(Long userId) throws UserNotFoundException {
-        Optional<UserDto> user = userService.getUserById(userId.longValue());
+    private UserEntity setUpdatedByUserName(String userName) throws UserNotFoundException {
+        Optional<UserDto> user = userService.getUserByUserName(userName);
         if (user.isPresent()) {
             return UserDtoUtil.convertUserDtoToEntity(user.get());
         } else {

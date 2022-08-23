@@ -7,6 +7,7 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   webflux:
     base-path: /api/v1
 server:

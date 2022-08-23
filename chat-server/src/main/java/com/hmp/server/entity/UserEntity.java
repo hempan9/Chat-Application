@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserEntity {
+public class UserEntity extends AbstractEntity {
     @Id
     @GeneratedValue(generator = "sequence-generator")
     @GenericGenerator(

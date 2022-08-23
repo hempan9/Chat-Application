@@ -2,7 +2,8 @@ package com.hmp.server.util;
 
 import com.hmp.server.dto.UserDto;
 import com.hmp.server.entity.UserEntity;
-import org.springframework.beans.BeanUtils;
+
+import java.time.LocalDateTime;
 
 /**
  * @author: hobject
@@ -18,8 +19,30 @@ public class UserDtoUtil {
         UserEntity userEntity = null;
         if (userDto!=null){
             userEntity = new UserEntity();
-            BeanUtils.copyProperties(userDto, userEntity);
+            userEntity.setUserId(userDto.getUserId());
+            userEntity.setUserName(userDto.getUserName());
+            userEntity.setEmail(userDto.getEmail());
+            userEntity.setPhone(userDto.getPhone());
+            userEntity.setFirstName(userDto.getFirstName());
+            userEntity.setLastName(userDto.getLastName());
+            userEntity.setCreatedDateTime(LocalDateTime.now().toString());
+            userEntity.setUpdatedDateTime(LocalDateTime.now().toString());
         }
         return userEntity;
+    }
+    public static UserDto convertUserEntityToDto(UserEntity userEntity){
+        UserDto userDto = null;
+        if (userEntity!=null){
+            userDto = new UserDto();
+            userDto.setUserId(userEntity.getUserId());
+            userDto.setUserName(userEntity.getUserName());
+            userDto.setEmail(userEntity.getEmail());
+            userDto.setFirstName(userEntity.getFirstName());
+            userDto.setLastName(userEntity.getLastName());
+            userDto.setPhone(userEntity.getPhone());
+            userDto.setCreatedDateTime(userEntity.getCreatedDateTime());
+            userDto.setUpdatedDateTime(userEntity.getUpdatedDateTime());
+        }
+        return userDto;
     }
 }

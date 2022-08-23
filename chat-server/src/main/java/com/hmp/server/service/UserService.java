@@ -6,6 +6,5 @@ import java.util.Optional;
 
 public interface UserService {
     boolean createUser(UserDto user);
-
-    Optional<UserDto> getUserById(Long userId);
+    Optional<UserDto> getUserByUserName(String userName);
 }

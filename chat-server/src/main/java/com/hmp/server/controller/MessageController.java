@@ -4,11 +4,10 @@ import com.hmp.server.dto.MessageDto;
 import com.hmp.server.enums.MessageStatusEnum;
 import com.hmp.server.exception.UserNotFoundException;
 import com.hmp.server.response.MessageApiResponse;
-import com.hmp.server.service.impl.MessageService;
+import com.hmp.server.service.MessageService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -19,6 +18,7 @@ import java.util.concurrent.ExecutionException;
  * description: controller class for message
  **/
 @RestController
+@RequestMapping("/message")
 public class MessageController {
     private final MessageService messageService;
 
@@ -26,14 +26,14 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @RequestMapping(value = "/saveMessage", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<MessageApiResponse> sendMessage(@RequestBody MessageDto messageDto) throws UserNotFoundException, ExecutionException, InterruptedException {
         return messageService.createNewMessage(messageDto) != null ?
                 ResponseEntity.ok(messageService.createNewMessage(messageDto))
                 : ResponseEntity.notFound().build();
     }
 
-    @RequestMapping(value = "/findMessage/{messageId}", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/find/{messageId}", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public MessageApiResponse findMessageByMessageId(@PathVariable Long messageId) {
         Optional<MessageDto> response = messageService.findMessageById(messageId);
         return response.isPresent() ?

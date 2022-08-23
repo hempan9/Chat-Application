@@ -1,4 +1,4 @@
-package com.hmp.server.service.impl;
+package com.hmp.server.service;
 
 import com.hmp.server.dto.MessageDto;
 import com.hmp.server.exception.UserNotFoundException;

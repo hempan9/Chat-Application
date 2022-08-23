@@ -6,6 +6,7 @@ import com.hmp.server.entity.MessageEntity;
 import com.hmp.server.enums.MessageStatusEnum;
 import com.hmp.server.exception.UserNotFoundException;
 import com.hmp.server.response.MessageApiResponse;
+import com.hmp.server.service.MessageService;
 import com.hmp.server.util.MessageDtoUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
