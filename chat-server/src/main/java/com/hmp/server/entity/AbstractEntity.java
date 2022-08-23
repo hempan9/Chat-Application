@@ -5,6 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
+
 /**
  * @author: hobject
  * date: 8/20/22
@@ -14,8 +19,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class AbstractEntity {
-    private String updatedBy;
+@MappedSuperclass
+public abstract class AbstractEntity implements Serializable {
+    @ManyToOne
+    @JoinColumn(name = "created_by", referencedColumnName = "userName")
+    private UserEntity updatedBy;
     private String updatedDateTime;
     private String createdDateTime;
 

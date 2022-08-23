@@ -1,15 +1,11 @@
 package com.hmp.server.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -27,13 +23,13 @@ public class MessageEntity extends AbstractEntity {
                     @org.hibernate.annotations.Parameter(name = "initial_value", value = "9122222"),
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             })
+    @Column(name = "message_id")
     private Long messageId;
+    @Column(name = "message")
     private String message;
+    @Column(name = "message_size")
     private String size;
+    @Column(name = "message_type")
     private String type;
-//    @ManyToOne
-//    @JoinColumn(name = "created_by_user_id", referencedColumnName = "userId")
-//    private UserEntity createdBy;
-//    @DateTimeFormat
-//    private LocalDateTime createdDateTime;
+
 }

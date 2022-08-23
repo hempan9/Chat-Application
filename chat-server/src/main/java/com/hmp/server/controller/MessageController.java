@@ -4,11 +4,10 @@ import com.hmp.server.dto.MessageDto;
 import com.hmp.server.enums.MessageStatusEnum;
 import com.hmp.server.exception.UserNotFoundException;
 import com.hmp.server.response.MessageApiResponse;
-import com.hmp.server.service.impl.MessageService;
+import com.hmp.server.service.MessageService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;

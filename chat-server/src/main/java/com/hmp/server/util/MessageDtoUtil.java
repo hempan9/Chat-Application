@@ -36,7 +36,7 @@ public class MessageDtoUtil {
             messageDto.setType(messageEntity.getType());
             messageDto.setCreatedDateTime(messageEntity.getCreatedDateTime());
             messageDto.setSize(messageEntity.getSize());
-            messageDto.setUpdatedBy(messageEntity.getUpdatedBy());
+            messageDto.setUpdatedBy(messageEntity.getUpdatedBy().getUserName());
             messageDto.setCreatedDateTime(messageEntity.getCreatedDateTime());
             messageDto.setUpdatedDateTime(messageEntity.getUpdatedDateTime());
         }
@@ -46,20 +46,21 @@ public class MessageDtoUtil {
     public MessageEntity convertMessageDtoToEntity(final MessageDto messageDto) throws UserNotFoundException {
         MessageEntity messageEntity = null;
         if (messageDto != null) {
+            messageEntity = new MessageEntity();
             messageEntity.setMessageId(messageDto.getMessageId());
             messageEntity.setMessage(messageDto.getMessage());
             messageEntity.setType(messageDto.getType());
-            messageEntity.setSize(messageDto.getSize());
-            messageEntity.setUpdatedBy(messageDto.getUpdatedBy());
-            messageEntity.setCreatedDateTime(messageDto.getCreatedDateTime());
-            messageEntity.setUpdatedDateTime(messageDto.getUpdatedDateTime());
+            messageEntity.setSize(messageDto.getMessage().getBytes().toString());
+            messageEntity.setUpdatedBy(setUpdatedByUserName(messageDto.getUpdatedBy()));
+            messageEntity.setCreatedDateTime(LocalDateTime.now().toString());
+            messageEntity.setUpdatedDateTime(LocalDateTime.now().toString());
 
         }
         return messageEntity;
     }
 
 
-    private UserEntity setCreatedByUser(String userName) throws UserNotFoundException {
+    private UserEntity setUpdatedByUserName(String userName) throws UserNotFoundException {
         Optional<UserDto> user = userService.getUserByUserName(userName);
         if (user.isPresent()) {
             return UserDtoUtil.convertUserDtoToEntity(user.get());
