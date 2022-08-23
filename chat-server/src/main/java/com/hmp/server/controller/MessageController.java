@@ -18,6 +18,7 @@ import java.util.concurrent.ExecutionException;
  * description: controller class for message
  **/
 @RestController
+@RequestMapping("/message")
 public class MessageController {
     private final MessageService messageService;
 
@@ -25,14 +26,14 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @RequestMapping(value = "/saveMessage", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<MessageApiResponse> sendMessage(@RequestBody MessageDto messageDto) throws UserNotFoundException, ExecutionException, InterruptedException {
         return messageService.createNewMessage(messageDto) != null ?
                 ResponseEntity.ok(messageService.createNewMessage(messageDto))
                 : ResponseEntity.notFound().build();
     }
 
-    @RequestMapping(value = "/findMessage/{messageId}", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/find/{messageId}", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public MessageApiResponse findMessageByMessageId(@PathVariable Long messageId) {
         Optional<MessageDto> response = messageService.findMessageById(messageId);
         return response.isPresent() ?
